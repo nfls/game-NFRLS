@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 7392a2598b1c44ea0a4d3123cea44840
+timeCreated: 1518525060
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Euphemia UCAS
+  fontNames:
+  - Euphemia UCAS
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

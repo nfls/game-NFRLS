@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: c7a3b79a9cb394eb6a2a4e4ab623c4c0
+timeCreated: 1518707186
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Adobe Kaiti Std
+  fontNames:
+  - Adobe Kaiti Std
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
