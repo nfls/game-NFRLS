@@ -32,4 +32,11 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-.DS_Store
+
+# Mac
+*.DS_Store
+
+# Models
+*.fbx
+*.max
+*.obj
