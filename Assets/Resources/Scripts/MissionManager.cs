@@ -46,13 +46,13 @@ public class MissionManager : MonoBehaviour, ISingletionBehaviour {
 		finishedMissions = new Queue<MissionInfo>();
 		followingMissions = new Queue<MissionInfo>();
 
-		MissionInfo missionInfo = new MissionInfo();
-		missionInfo.id = 1;
-		missionInfo.title = "Watch TV";
-		missionInfo.substitle = "To kill time";
-		missionInfo.description = "Just another boring summer afternoon, you decide to find something to do.";
-		missionInfo.tip = "Go to TV and turn it on.";
-
+		MissionInfo missionInfo = new MissionInfo {
+			id = 1,
+			title = "Watch TV",
+			substitle = "To kill time",
+			description = "Just another boring summer afternoon, you decide to find something to do.",
+			tip = "Go to TV and turn it on."
+		};
 		AddNewMission(missionInfo);
 	}
 
@@ -70,6 +70,7 @@ public class MissionManager : MonoBehaviour, ISingletionBehaviour {
 	}
 
 	static void FinishCurrentMission() {
+		NotificationManager.AddNotification(NotificationInfo.NotificationType.MISSION, "Mission Finished", currentMission.title + " - " + currentMission.substitle, NotificationInfo.DURATION_MEDIUM);
 		hasMissionInProgress = false;
 		currentMission.finished = true;
 		currentMission.inProgress = false;
@@ -87,7 +88,7 @@ public class MissionManager : MonoBehaviour, ISingletionBehaviour {
 	}
 
 	static void DisplayNewMission() {
-		NotificationManager.AddNotification(NotificationInfo.NotificationType.MISSION, "New Mission", currentMission.title + " - " + currentMission.substitle, NotificationInfo.DURATION_MEDIUM);
+		NotificationManager.AddNotification(NotificationInfo.NotificationType.MISSION, "New Mission", currentMission.title + " - " + currentMission.substitle, NotificationInfo.DURATION_LONG);
 		RefreshMissionBoard();
 	}
 

@@ -9,6 +9,9 @@ public class SingletionManager : MonoBehaviour {
 	static GameObject m_singletionCanvas;
 
 	public static Camera mainCamera {
+		set {
+			m_mainCamera = value;
+		}
 		get {
 			if (!m_mainCamera) {
 				m_mainCamera = Camera.main;
@@ -55,5 +58,9 @@ public class SingletionManager : MonoBehaviour {
 			}
 		}
 		return null;
+	}
+
+	public static void SwitchScene() {
+		mainCamera = Camera.main;
 	}
 }
