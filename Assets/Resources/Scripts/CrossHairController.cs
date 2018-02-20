@@ -12,7 +12,13 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 	public static readonly Color INTERACTIVE_MESSAGE_COLOR = new Color(0.451f, 0.878f, 0.290f);
 	public static readonly Color NON_INTERACTIVE_MESSGAE_COLOR = Color.red;
 
+	public static readonly float MESSAGE_DURATION_SHORT = 1f;
+	public static readonly float MESSAGE_DURATION_MEDIUM = 3f;
+	public static readonly float MESSAGE_DURATION_DEFAULT = 5f;
+	public static readonly float MESSAGE_DURATION_LONG = 8f;
+
 	public static GameObject viewBoard;
+	public static Text infoText;
 	public static Text messageText;
 	public static CrossHairState currentState;
 
@@ -34,6 +40,7 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 	static Collider lastOnCollider;
 	static ItemController lastOnItemController;
 	static IEnumerator interactingItemUpdateTask;
+	static IEnumerator messageTextDisplayTask;
 
 	void Start() {
 		Cursor.lockState = CursorLockMode.Locked;
@@ -48,11 +55,12 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 		}
 
 		crossHairController = SingletionManager.GetSingletionBehaviour<CrossHairController>();
+		infoText = SingletionManager.singletionCanvas.transform.Find("Info Text").GetComponent<Text>();
 		messageText = SingletionManager.singletionCanvas.transform.Find("Message Text").GetComponent<Text>();
 		viewBoard = SingletionManager.singletionCanvas.transform.Find("View Board").gameObject;
 		viewBoard.SetActive(false);
 		SetState(CrossHairState.OBSERVE);
-		SetText("");
+		SetInfoText("");
 	}
 
 	void Update() {
@@ -101,20 +109,29 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 		Cursor.SetCursor(icon, new Vector2(icon.width / 2, icon.height / 2), CursorMode.ForceSoftware);
 	}
 
-	public static void SetText(string text) {
-		SetText(text, DEFAULT_MESSAGE_COLOR);
+	public static void SetInfoText(string text) {
+		SetInfoText(text, DEFAULT_MESSAGE_COLOR);
 	}
 
-	public static void SetText(string text, bool isValid) {
+	public static void SetInfoText(string text, bool isValid) {
 		if (isValid) {
-			SetText(text, INTERACTIVE_MESSAGE_COLOR);
+			SetInfoText(text, INTERACTIVE_MESSAGE_COLOR);
 		} else {
-			SetText(text, NON_INTERACTIVE_MESSGAE_COLOR);
+			SetInfoText(text, NON_INTERACTIVE_MESSGAE_COLOR);
 		}
 	}
 
-	public static void SetText(string text, Color color) {
-		messageText.text = "<color=" + "#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
+	public static void SetInfoText(string text, Color color) {
+		infoText.text = "<color=" + "#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
+	}
+
+	public static void SetMessageText(string text, Color color, float duration) {
+		if (messageTextDisplayTask != null) {
+			crossHairController.StopCoroutine(messageTextDisplayTask);
+		}
+		messageText.text = "<color=" + "#" + ColorUtility.ToHtmlStringRGBA(color) + ">[Message] - " + text + "</color>";
+		messageTextDisplayTask = ExeMessageTextDisplayTask(duration);
+		crossHairController.StartCoroutine(messageTextDisplayTask);
 	}
 
 	public static void StartInteraction(ItemController itemController) {
@@ -126,7 +143,7 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 		switch (itemController.interactionType) {
 			case ItemController.InteractionType.PICK_UP: PickUp(itemController); break;
 			case ItemController.InteractionType.VIEW: StartViewing(); break;
-			case ItemController.InteractionType.OPERATE: break;
+			case ItemController.InteractionType.OPERATE: Operate(); break;
 		}
 		interactingItemUpdateTask = ExeInteractingItemUpdatingTask();
 		crossHairController.StartCoroutine(interactingItemUpdateTask);
@@ -135,6 +152,9 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 
 	public static void StopInteraction() {
 		SetState(CrossHairState.OBSERVE);
+		if (interactingItemController.interactOnce) {
+			interactingItemController.interactive = false;
+		}
 		interacting = false;
 		interactingItemController.interacting = false;
 		ItemController itemController = interactingItemController;
@@ -144,9 +164,11 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 			case ItemController.InteractionType.VIEW: StopViewing(itemController); break;
 			case ItemController.InteractionType.OPERATE: break;
 		}
-		crossHairController.StopCoroutine(interactingItemUpdateTask);
-		interactingItemUpdateTask = null;
-		SetText("");
+		if (interactingItemUpdateTask != null) {
+			crossHairController.StopCoroutine(interactingItemUpdateTask);
+			interactingItemUpdateTask = null;
+		}
+		SetInfoText("");
 		itemController.OnInteractionExited();
 	}
 
@@ -157,7 +179,7 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 			itemController.itemBody.useGravity = false;
 		}
 		itemController.itemCollider.enabled = false;
-		SetText(itemController.GetCheckingInfo(), itemController.interactive);
+		SetInfoText(itemController.GetCheckingInfo(), itemController.interactive);
 	}
 
 	public static void DropDown(ItemController itemController) {
@@ -182,17 +204,74 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 		SingletionManager.itemCamera.transform.LookAt(interactingItemController.transform);
 
 		interactingItemController.gameObject.layer = 10;
+		foreach (Transform transform in interactingItemController.GetComponentsInChildren<Transform>()) {
+			transform.gameObject.layer = 10;
+		}
 
 		viewBoard.SetActive(true);
 		viewBoard.transform.Find("Panel/Head Text").GetComponent<Text>().text = "[" + interactingItemController.itemType + "] - " + interactingItemController.itemName;
 		viewBoard.transform.Find("Panel/Info Text").GetComponent<Text>().text = interactingItemController.itemInfo;
 	}
 
+	public static void Operate() {
+		if (interactingItemController.willSendMessageRequest) {
+			CommunicationRequest request = new CommunicationRequest {
+				communicationType = CommunicationController.CommunicationType.MESSAGE,
+				contents = new Dictionary<string, object> {
+					{"text", interactingItemController.messageText},
+					{"color", interactingItemController.messageColor},
+					{"duration", interactingItemController.messageDuration}
+				}
+			};
+
+			CommunicationController.HandleCommunicationRequest(request);
+		}
+		if (interactingItemController.willSendMissionRequest) {
+			CommunicationRequest request = new CommunicationRequest {
+				communicationType = CommunicationController.CommunicationType.MISSION,
+				contents = new Dictionary<string, object> {
+					{"id", interactingItemController.missionId},
+					{"status", interactingItemController.missionStatus}
+				}
+			};
+			if (!interactingItemController.missionStatus.Equals("finished")) {
+				request.contents["missionInfo"] = new MissionInfo {
+					id = interactingItemController.missionId,
+					title = interactingItemController.missionTitle,
+					substitle = interactingItemController.missionSubtitle,
+					description = interactingItemController.missionDescription,
+					tip = interactingItemController.missionTip
+				};
+			}
+
+			CommunicationController.HandleCommunicationRequest(request);
+		}
+		if (interactingItemController.willSendOtherRequest) {
+			CommunicationRequest request = new CommunicationRequest {
+				communicationType = CommunicationController.CommunicationType.OTHER,
+				contents = new Dictionary<string, object>()
+			};
+			request.contents["name"] = interactingItemController.actionName;
+			request.contents["deleteAfterExe"] = interactingItemController.deleteAfterExe;
+
+			CommunicationController.HandleCommunicationRequest(request);
+		}
+	}
+
 	public static void StopViewing(ItemController itemController) {
 		viewBoard.SetActive(false);
 		itemController.gameObject.layer = 0;
+		foreach (Transform transform in itemController.GetComponentsInChildren<Transform>()) {
+			transform.gameObject.layer = 0;
+		}
 		//Cursor.lockState = CursorLockMode.Locked;
 		FirstPersonController.controllerEnabled = true;
+	}
+
+	static IEnumerator ExeMessageTextDisplayTask(float duration) {
+		messageText.gameObject.SetActive(true);
+		yield return new WaitForSeconds(duration);
+		messageText.gameObject.SetActive(false);
 	}
 
 	static IEnumerator ExeInteractingItemUpdatingTask() {
@@ -229,12 +308,12 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 	}
 
 	static void ExeOperatingUpdateTask() {
-
+		StopInteraction();
 	}
 
 	static void EnterItem(ItemController itemController) {
 		SetState(CrossHairState.CHECK);
-		SetText(itemController.GetCheckingInfo(), itemController.interactive);
+		SetInfoText(itemController.GetCheckingInfo(), itemController.interactive);
 	}
 
 	static void OverItem(ItemController itemController) {
@@ -249,7 +328,7 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 
 	static void ExitItem(ItemController itemController) {
 		SetState(CrossHairState.OBSERVE);
-		SetText("");
+		SetInfoText("");
 	}
 
 	static void OnSceneFinished() {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SingletionManager : MonoBehaviour {
 
@@ -35,32 +36,51 @@ public class SingletionManager : MonoBehaviour {
 			return m_singletionCanvas;
 		}
 	}
+	public static Canvas[] allCanvases;
 
-	public static List<MonoBehaviour> singletionBehaviours = new List<MonoBehaviour>();
+	public static List<ISingletionBehaviour> singletionBehaviours = new List<ISingletionBehaviour>();
 
 	void Start() {
 		itemCamera.gameObject.SetActive(false);
 
-		singletionBehaviours.AddRange(GetComponentsInChildren<MonoBehaviour>());
-		foreach (MonoBehaviour mb in singletionBehaviours) {
-			if (mb is ISingletionBehaviour) {
-				((ISingletionBehaviour)mb).Init();
-			}
+		singletionBehaviours.AddRange(GetComponentsInChildren<ISingletionBehaviour>());
+		singletionBehaviours.Add(new CommunicationController());
+
+		foreach (ISingletionBehaviour sb in singletionBehaviours) {
+			sb.Init();
 		}
 
 		DontDestroyOnLoad(gameObject);
+
+		SceneManager.activeSceneChanged += SwitchScene;
 	}
 
-	public static T GetSingletionBehaviour<T>() where T : MonoBehaviour {
-		foreach (MonoBehaviour mb in singletionBehaviours) {
+	public static T GetSingletionBehaviour<T>() where T : ISingletionBehaviour {
+		foreach (ISingletionBehaviour mb in singletionBehaviours) {
 			if (mb.GetType().Equals(typeof(T))) {
 				return (T)mb;
 			}
 		}
-		return null;
+		return default(T);
 	}
 
-	public static void SwitchScene() {
+	public static void SwitchScene(Scene oldScene, Scene newScene) {
 		mainCamera = Camera.main;
+		GetSingletionBehaviour<CommunicationController>().Init();
+	}
+
+	public static void HideAllUI() {
+		allCanvases = FindObjectsOfType<Canvas>();
+		foreach (Canvas canvas in allCanvases) {
+			canvas.gameObject.SetActive(false);
+		}
+		Cursor.visible = false;
+	}
+
+	public static void ShowAllUI() {
+		foreach (Canvas canvas in allCanvases) {
+			canvas.gameObject.SetActive(true);
+		}
+		Cursor.visible = true;
 	}
 }

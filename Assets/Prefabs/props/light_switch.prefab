@@ -10,8 +10,8 @@ GameObject:
   - component: {fileID: 432976}
   - component: {fileID: 3341096}
   - component: {fileID: 2373340}
-  - component: {fileID: 114392843119307158}
-  - component: {fileID: 64484281618153484}
+  - component: {fileID: 64729897222843824}
+  - component: {fileID: 114714835197026660}
   m_Layer: 0
   m_Name: light_switch
   m_TagString: Untagged
@@ -25,13 +25,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 126042}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.8433, y: 0.17740001, z: 0.6164}
-  m_LocalScale: {x: 0.0010000004, y: 0.001, z: 0.0010000004}
+  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!23 &2373340
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -84,7 +84,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 126042}
   m_IsPrefabParent: 1
---- !u!64 &64484281618153484
+--- !u!64 &64729897222843824
 MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -98,7 +98,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 792b4f3dd7e4cc44886e24bfc63e3ef2, type: 3}
---- !u!114 &114392843119307158
+--- !u!114 &114714835197026660
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -110,12 +110,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemId: -1
-  itemName: Light Switch
+  itemName: Switch
   itemType: Furniture
-  itemInfo: Don't touch it!
+  itemInfo: Don't touch!
+  interactOnce: 0
   interactive: 1
   interacting: 0
   interacted: 0
   interactionType: 2
+  willSendMessageRequest: 1
+  messageText: Ah! It leaks electricity!
+  messageColor: {r: 1, g: 0, b: 0, a: 1}
+  messageDuration: 5
+  willSendMissionRequest: 0
+  missionId: 0
+  missionStatus: finished
+  missionTitle: 
+  missionSubtitle: 
+  missionDescription: 
+  missionTip: 
+  willSendOtherRequest: 0
+  actionName: 
+  deleteAfterExe: 0
   itemCollider: {fileID: 0}
   itemBody: {fileID: 0}

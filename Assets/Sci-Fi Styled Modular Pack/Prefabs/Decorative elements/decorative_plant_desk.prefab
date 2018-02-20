@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3347054}
   - component: {fileID: 2307352}
   - component: {fileID: 6570662}
+  - component: {fileID: 114630499330828722}
   m_Layer: 0
   m_Name: decorative_plant_desk
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110680}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6.273621, y: 1.2709166, z: -7.638}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,3 +99,39 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 110680}
   m_IsPrefabParent: 1
+--- !u!114 &114630499330828722
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2e6675f66154b90a366f84c51c0257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: -1
+  itemName: Plant
+  itemType: Decoration
+  itemInfo: Another IKEA stuff.
+  interactOnce: 0
+  interactive: 1
+  interacting: 0
+  interacted: 0
+  interactionType: 1
+  willSendMessageRequest: 0
+  messageText: 
+  messageColor: {r: 0.247, g: 0.247, b: 0.247, a: 1}
+  messageDuration: 5
+  willSendMissionRequest: 0
+  missionId: 0
+  missionStatus: finished
+  missionTitle: 
+  missionSubtitle: 
+  missionDescription: 
+  missionTip: 
+  willSendOtherRequest: 0
+  actionName: 
+  deleteAfterExe: 0
+  itemCollider: {fileID: 0}
+  itemBody: {fileID: 0}

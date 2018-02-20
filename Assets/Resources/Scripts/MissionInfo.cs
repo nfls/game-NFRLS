@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MissionInfo {
 
@@ -21,7 +22,5 @@ public class MissionInfo {
 
 	bool m_finished;
 
-	void OnFinished() {
-
-	}
+	public Action finishAction;
 }

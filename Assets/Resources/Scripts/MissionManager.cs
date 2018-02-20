@@ -45,15 +45,6 @@ public class MissionManager : MonoBehaviour, ISingletionBehaviour {
 
 		finishedMissions = new Queue<MissionInfo>();
 		followingMissions = new Queue<MissionInfo>();
-
-		MissionInfo missionInfo = new MissionInfo {
-			id = 1,
-			title = "Watch TV",
-			substitle = "To kill time",
-			description = "Just another boring summer afternoon, you decide to find something to do.",
-			tip = "Go to TV and turn it on."
-		};
-		AddNewMission(missionInfo);
 	}
 
 	public static void AddNewMission(MissionInfo missionInfo) {
@@ -63,7 +54,7 @@ public class MissionManager : MonoBehaviour, ISingletionBehaviour {
 		}
 	}
 
-	public static void ReceiveMissionFinishedMessage(int id) {
+	public static void HandleMissionFinishedRequest(int id) {
 		if (id == currentMission.id) {
 			FinishCurrentMission();
 		}
@@ -74,6 +65,9 @@ public class MissionManager : MonoBehaviour, ISingletionBehaviour {
 		hasMissionInProgress = false;
 		currentMission.finished = true;
 		currentMission.inProgress = false;
+		if (currentMission.finishAction != null) {
+			currentMission.finishAction.Invoke();
+		}
 		finishedMissions.Enqueue(currentMission);
 		currentMission = null;
 		if (followingMissions.Count > 0) {
