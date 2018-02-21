@@ -12,6 +12,7 @@ public class HomeSceneController : MonoBehaviour {
 	public GameObject bomb;
 	public GameObject toyBomb;
 	public GameObject door;
+	public GameObject ball;
 
 	public Camera tvCamera;
 
@@ -19,6 +20,7 @@ public class HomeSceneController : MonoBehaviour {
 	public VideoClip[] randomVideos;
 	public AudioClip instructionAudio;
 	public AudioClip endAudio;
+	public AudioClip tvAudio;
 	public AudioClip playerAudioAboutNotice;
 	public AudioClip bombCountDownAudio;
 	public AudioClip bombExplodeAudio;
@@ -66,15 +68,18 @@ public class HomeSceneController : MonoBehaviour {
 		}
 
 		if (bool.Parse(PlayerPrefs.GetString("hasPlayed", "false"))) {
-			PlayerPrefs.SetString("hasPlayed", "true");
 			PlayPhase1();
 		} else {
+			FirstPersonController.controllerEnabled = false;
+			AudioSource.PlayClipAtPoint(instructionAudio, SingletionManager.mainCamera.transform.position);
+			PlayerPrefs.SetString("hasPlayed", "true");
 			Invoke("PlayPhase1", 113f);
 		}
 	}
 
 	void PlayPhase1() {
 		currentPhase = 1;
+		FirstPersonController.controllerEnabled = true;
 		hurryTask = ExeHurryTask(phase1HurryAudios);
 		StartCoroutine(hurryTask);
 	}
@@ -84,9 +89,12 @@ public class HomeSceneController : MonoBehaviour {
 		StopCoroutine(hurryTask);
 		FirstPersonController.controllerEnabled = false;
 		SingletionManager.mainCamera.gameObject.SetActive(false);
+		ball.transform.localPosition = new Vector3(-0.52f, 0.126f, 0.3866f);
+		ball.SetActive(false);
 		tvCamera.gameObject.SetActive(true);
 		SingletionManager.HideAllUI();
 		videoPlayer.Play();
+		//AudioSource.PlayClipAtPoint(tvAudio, videoPlayer.transform.position);
 		videoPlayer.loopPointReached += delegate {
 			if (currentPhase != 2) {
 				return;
@@ -104,6 +112,7 @@ public class HomeSceneController : MonoBehaviour {
 		currentPhase = 3;
 		SingletionManager.ShowAllUI();
 		FirstPersonController.controllerEnabled = true;
+		ball.SetActive(true);
 		videoPlayer.clip = randomVideos[randomVideoMark];
 		videoPlayer.Play();
 		videoPlayer.loopPointReached += delegate {
@@ -144,6 +153,7 @@ public class HomeSceneController : MonoBehaviour {
 				{"color", Color.green}
 			}
 		});
+		FirstPersonController.controllerEnabled = false;
 		AudioSource.PlayClipAtPoint(endAudio, SingletionManager.mainCamera.transform.position);
 	}
 

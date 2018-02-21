@@ -262,8 +262,8 @@ MonoBehaviour:
   interacting: 0
   interacted: 0
   interactionType: 1
-  willSendMessageRequest: 0
-  messageText: 
+  willSendMessageRequest: 1
+  messageText: Ha, back to the original place.
   messageColor: {r: 0.247, g: 0.247, b: 0.247, a: 1}
   messageDuration: 5
   willSendMissionRequest: 0
@@ -1429,6 +1429,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0453d744a3136499586eb0a96b7cd0eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &569933537 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: 753ea9ccf9eee6c42a0954ec8663b992, type: 2}
+  m_PrefabInternal: {fileID: 197167211}
 --- !u!1001 &606620396
 Prefab:
   m_ObjectHideFlags: 0
@@ -1737,7 +1741,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 648419103}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.044}
+  m_LocalPosition: {x: 0, y: 0, z: 0.045}
   m_LocalScale: {x: 0.8, y: 0.5, z: 1}
   m_Children:
   - {fileID: 913496748}
@@ -5571,6 +5575,7 @@ MonoBehaviour:
   bomb: {fileID: 1659324766}
   toyBomb: {fileID: 744834434}
   door: {fileID: 2064262723}
+  ball: {fileID: 569933537}
   tvCamera: {fileID: 913496751}
   phase3Objects:
   - {fileID: 3828828}
@@ -5584,6 +5589,7 @@ MonoBehaviour:
   - {fileID: 32900000, guid: 195a99bc09fd3402d8fdc77d2d5305cc, type: 3}
   instructionAudio: {fileID: 8300000, guid: dbca33442730e4c448b39693690edb5a, type: 3}
   endAudio: {fileID: 8300000, guid: 72c5afd59d85e4344968bb748ceaf966, type: 3}
+  tvAudio: {fileID: 8300000, guid: 7755af67c665e495a870ab0dbc6a07b9, type: 3}
   playerAudioAboutNotice: {fileID: 8300000, guid: 65017124e5ceae045b1c5629d69aa8cb,
     type: 3}
   bombCountDownAudio: {fileID: 8300000, guid: 82e45db444fcc4d2bbaa8e907cfe8d3d, type: 3}
@@ -5601,8 +5607,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aff68e3472ebb46f0b63ee920b601cbf, type: 3}
   - {fileID: 8300000, guid: 3b67315e02f2f4676881f7e0bb5d66dc, type: 3}
   - {fileID: 8300000, guid: 49e07a6ff1c664a52b80f453ed823395, type: 3}
-  hurryIntervalMin: 10
-  hurryIntervalMax: 20
+  hurryIntervalMin: 15
+  hurryIntervalMax: 30
   currentPhase: 0
 --- !u!1001 &1659324765
 Prefab:
@@ -6923,8 +6929,8 @@ MonoBehaviour:
   messageText: A door on the wall. Cannot open it.
   messageColor: {r: 0.247, g: 0.247, b: 0.247, a: 1}
   messageDuration: 5
-  willSendMissionRequest: 0
-  missionId: 0
+  willSendMissionRequest: 1
+  missionId: 2
   missionStatus: finished
   missionTitle: 
   missionSubtitle: 
