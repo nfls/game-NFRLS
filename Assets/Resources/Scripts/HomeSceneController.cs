@@ -145,12 +145,13 @@ public class HomeSceneController : MonoBehaviour {
 	}
 
 	IEnumerator ExeDemoFinishedTask() {
-		yield return new WaitForSeconds(5f);
+		yield return new WaitForSeconds(2f);
 		CommunicationController.HandleCommunicationRequest(new CommunicationRequest {
 			communicationType = CommunicationController.CommunicationType.MESSAGE,
 			contents = new Dictionary<string, object> {
 				{"text", "<b>Demo Finished !!!</b>"},
-				{"color", Color.green}
+				{"color", Color.green},
+				{"duration", CrossHairController.MESSAGE_DURATION_DEFAULT}
 			}
 		});
 		FirstPersonController.controllerEnabled = false;

@@ -83,4 +83,8 @@ public class SingletionManager : MonoBehaviour {
 		}
 		Cursor.visible = true;
 	}
+
+	void OnApplicationFocus(bool focus) {
+		Cursor.lockState = CursorLockMode.Locked;
+	}
 }

@@ -180,6 +180,7 @@ public class CrossHairController : MonoBehaviour, ISingletionBehaviour {
 		}
 		itemController.itemCollider.enabled = false;
 		SetInfoText(itemController.GetCheckingInfo(), itemController.interactive);
+		Operate();
 	}
 
 	public static void DropDown(ItemController itemController) {

@@ -381,6 +381,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4277026241555722}
   - component: {fileID: 95447351102293542}
+  - component: {fileID: 64957608575746984}
+  - component: {fileID: 114333387119096128}
   m_Layer: 0
   m_Name: BetaWoman
   m_TagString: Untagged
@@ -1408,15 +1410,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1245010491668240}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 8.251, y: 2.855402, z: -2.7880616}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 4907819634771384}
   - {fileID: 4959482348138054}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &4287154886269248
 Transform:
   m_ObjectHideFlags: 1
@@ -2073,6 +2075,20 @@ Transform:
   m_Father: {fileID: 4370342947578316}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &64957608575746984
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1245010491668240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300002, guid: 233a319efc007814798900e94b7b18d2, type: 3}
 --- !u!95 &95447351102293542
 Animator:
   serializedVersion: 3
@@ -2082,7 +2098,7 @@ Animator:
   m_GameObject: {fileID: 1245010491668240}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 233a319efc007814798900e94b7b18d2, type: 3}
-  m_Controller: {fileID: 9100000, guid: 395a433037bba40209175e3005ca0e76, type: 2}
+  m_Controller: {fileID: 9100000, guid: ed30edc898c4f9a4485938eb0ea7e1b2, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2090,6 +2106,42 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114333387119096128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1245010491668240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2e6675f66154b90a366f84c51c0257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: -1
+  itemName: Red Magic Doll
+  itemType: Decortaion
+  itemInfo: It can move. True magic.
+  interactOnce: 0
+  interactive: 1
+  interacting: 0
+  interacted: 0
+  interactionType: 1
+  willSendMessageRequest: 0
+  messageText: 
+  messageColor: {r: 0.247, g: 0.247, b: 0.247, a: 1}
+  messageDuration: 5
+  willSendMissionRequest: 0
+  missionId: 0
+  missionStatus: finished
+  missionTitle: 
+  missionSubtitle: 
+  missionDescription: 
+  missionTip: 
+  willSendOtherRequest: 0
+  actionName: 
+  deleteAfterExe: 0
+  itemCollider: {fileID: 0}
+  itemBody: {fileID: 0}
 --- !u!137 &137217256864843248
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
